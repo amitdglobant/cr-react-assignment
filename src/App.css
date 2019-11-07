@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 3%;
+}
+
+.table {
+  width: 0%;
+}
+.table-info {
+  background-color: white !important;
+}
+.incident-button {
+  text-align: right;
+}
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-collapse: collapse;
+}
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4caf50;
+  color: white;
+}
+.card-title {
+  font-weight: bold;
+}
