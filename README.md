@@ -1,4 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Code Realm - Nov ’19: React Assignment
+
+# Description
+
+The existing app is a simple Incidents Logger app. The Home screen shows all current incidents in the paginated form along with Add button on Home Screen. Each incident has a title, description, id and edit field. The app has been generated with create react-app version. The Details Screen shows the particular incident detail info. The layout of app is developed using reactstrap.
+You have to perform the following tasks -
+
+## Minimum requirements:
+
+- Enable Add incident functionality: On clicking the button, user should be able to add a new incident. The incident should have a unique id.
+- Enable ‘Edit Incident’ functionality: There is an edit link that enables user to edit the title, description in a modal form. - - The form should contains save button. On pressing save button data should update in existing table.
+- Use state management library of your choice to persist data and handle side effects.
+
+## Good to have -
+
+- Add Delete Incident functionality: On clicking delete incident, user should be able to remove the incident from the table
+- Use Local storage to persist data. If user refreshes the page, he should still see the newly added incidents.
+
+## Brownie points-
+
+- Refactor existing components to make the code more reusable.
+- Unit test: An overall test coverage of 80% is desirable.
+
+## Please note -
+
+The ability to execute unit tests is already baked in so you don’t have to make any configuration changes to enable it.
 
 ## Available Scripts
 
@@ -42,27 +67,3 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
