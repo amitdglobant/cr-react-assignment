@@ -11,7 +11,7 @@ import * as actions from "../actions/incidentActions";
 import { SpinnerComponent } from "./UIComponent/SpinnerComponent";
 import DeleteModalComponent from "./UIComponent/DeleteModalComponent";
 import AddModalComponent from "./UIComponent/AddModalComponent";
-import { IS_DELETED, IS_SAVED } from "../types/types";
+import { IS_SAVED } from "../types/types";
 
 class Landing extends Component {
   constructor(props) {
@@ -25,15 +25,43 @@ class Landing extends Component {
       count: 0,
       sortColumn: { columnName: "id", order: "asc" },
       columns: [],
-      showDeleteModal: false,
       showAddModal: false,
       toDeleteId: 0,
-      showSuccess: false
+      showMessage: false,
+      showMessageColor: "",
+      showMessageText: ""
     };
   }
 
   handlePageChange = page => {
     this.setState({ currentPage: page });
+  };
+
+  handleDeleteModalClose = id => {
+    if (id === 0) {
+      this.props.actions.deleteIncident(id, true);
+    } else {
+      this.props.actions.deleteIncident(id, false);
+      this.setState({
+        showMessage: true,
+        showMessageColor: "danger",
+        showMessageText: `Incident ID# ${id} has been deleted successfully.`
+      });
+      setTimeout(() => this.setState({ showMessage: false }), 2000);
+    }
+  };
+
+  handleAddModalClose = confirm => {
+    this.setState({ showAddModal: false });
+    console.log(confirm);
+    if (confirm === IS_SAVED) {
+      this.setState({
+        showMessage: true,
+        showMessageColor: "success",
+        showMessageText: "Incident has been successfully added."
+      });
+    }
+    setTimeout(() => this.setState({ showMessage: false }), 2000);
   };
 
   getPagedData = () => {
@@ -45,15 +73,14 @@ class Landing extends Component {
 
   async componentDidMount() {
     const headerArr = [];
-    let respData=null;
+    let respData = null;
     if (sessionStorage.getItem("apiIncidentData") === "") {
       respData = await getData();
-    }
-    else{
+    } else {
       respData = JSON.parse(sessionStorage.getItem("apiIncidentData"));
     }
     await this.props.actions.loadData(respData);
-    
+
     //get all column header values
     for (let key in this.props.incidentState.data[0]) {
       headerArr.push(key);
@@ -80,24 +107,6 @@ class Landing extends Component {
     this.setState({ showAddModal: true });
   };
 
-  handleDeleteModalClose = confirm => {
-    this.setState({ showDeleteModal: false });
-    if (confirm === IS_DELETED) {
-      alert("deleted");
-    } else {
-      alert("closed");
-    }
-  };
-
-  handleAddModalClose = confirm => {
-    this.setState({ showAddModal: false });
-    console.log(confirm);
-    if (confirm === IS_SAVED) {
-      this.setState({ showSuccess: true });
-    }
-    setTimeout(() => this.setState({ showSuccess: false }), 2000);
-  };
-
   render() {
     const { pageSize, currentPage, sortColumn, count, columns } = this.state;
     if (count === 0) {
@@ -111,9 +120,9 @@ class Landing extends Component {
       return (
         this.props.incidentState.data && (
           <div className="table-info">
-            {this.state.showSuccess && (
-              <Alert color="success" fade={true}>
-                Incident has been saved successfully.{" "}
+            {this.state.showMessage && (
+              <Alert color={this.state.showMessageColor} fade={true}>
+                {this.state.showMessageText}
               </Alert>
             )}
             <div className="incident-button">
@@ -140,10 +149,10 @@ class Landing extends Component {
               onPageChange={this.handlePageChange}
             />
             <DeleteModalComponent
-              open={this.state.showDeleteModal}
+              open={this.props.incidentState.toDelete}
               message={"Do you want to delete this incident ??"}
-              onClose={confirm => this.handleModalClose(confirm)}
-              deleteId={this.state.toDeleteId}
+              onClose={confirm => this.handleDeleteModalClose(confirm)}
+              deleteId={this.props.incidentState.deleteId}
             />
             <AddModalComponent
               open={this.state.showAddModal}
