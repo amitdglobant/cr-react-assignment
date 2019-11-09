@@ -27,12 +27,12 @@ function IncidentModal(props) {
     <>
       <Modal show={isModalShow} onHide={hideModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>{incident.id ? incident.id:'New'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
             <div className="form-group">
-              <label>Email address:</label>
+              <label>Title:</label>
               <input
                 type="text"
                 className="form-control"

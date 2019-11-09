@@ -6,6 +6,7 @@ import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
 import {connect} from 'react-redux'
+import { showModal, setCurrentIncident } from "../actions";
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +75,10 @@ class Landing extends Component {
       data && (
         <div className="table-info">
           <div className="incident-button">
-            <Button color="primary">Add Incident</Button>{' '}
+            <Button color="primary" onClick={e=>{
+              showModal();
+              setCurrentIncident({});
+            }}>Add Incident</Button>{' '}
           </div>
           <h4>Showing {count} incidents in the database.</h4>
           <IncidentsTable
@@ -100,4 +104,4 @@ const mapStateToProps = (state)=>{
     incidents:state.incidents
   }
 }
-export default connect(mapStateToProps)(Landing)
+export default connect(mapStateToProps,{showModal,setCurrentIncident})(Landing)
