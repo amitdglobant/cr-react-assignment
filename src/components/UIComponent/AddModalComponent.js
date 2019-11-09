@@ -23,7 +23,6 @@ const AddModalComponent = props => {
 
   const validateData = () => {
     const errorMessages = [];
-    console.log(idRef.current.value);
     if (idRef.current.value === "") {
       errorMessages.push("Please enter an ID");
     }
@@ -33,7 +32,6 @@ const AddModalComponent = props => {
     if (descriptionRef.current.value === "") {
       errorMessages.push("Please enter a Description");
     }
-
     return errorMessages;
   };
 

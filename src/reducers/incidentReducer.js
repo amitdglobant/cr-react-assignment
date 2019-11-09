@@ -1,4 +1,4 @@
-import { LOAD_INCIDENT, IS_SAVED } from "../types/types";
+import { LOAD_INCIDENT, IS_SAVED, IS_DELETED } from "../types/types";
 
 const initialState = {
  data : {}
@@ -13,6 +13,12 @@ export const incidentReducer = (state = initialState, action) => {
     };
 
     case IS_SAVED: 
+    return {
+      ...state,
+      data: action.data
+    }
+
+    case IS_DELETED: 
     return {
       ...state,
       data: action.data

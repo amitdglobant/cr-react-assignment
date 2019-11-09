@@ -2,10 +2,16 @@ import React from "react";
 import { Table } from "reactstrap";
 import TableHead from "./tableHead";
 import TableRow from "./tableBody";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as actions from "../../actions/incidentActions";
 
-export default class IncidentsTable extends React.Component {
+class IncidentsTable extends React.Component {
   renderCellData() {
-    return this.props.data.map(row => TableRow(row));
+    return this.props.data.map(row => {
+      let props1 = {...row, ...this.props};
+      return <TableRow {...props1} />;
+    });
   }
 
   raiseSort = columnName => {
@@ -17,6 +23,10 @@ export default class IncidentsTable extends React.Component {
       sortColumn.order = "asc";
     }
     this.props.onSort(sortColumn);
+  };
+
+  onDelete = id => {
+    alert(id);
   };
 
   render() {
@@ -31,7 +41,21 @@ export default class IncidentsTable extends React.Component {
         </thead>
         <tbody>{this.renderCellData()}</tbody>
       </Table>
-      
     );
   }
 }
+
+const mapStatetoProps = state => {
+  return {
+    incidentState: state.incidentState
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(IncidentsTable);

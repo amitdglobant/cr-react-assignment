@@ -1,5 +1,5 @@
 import {store} from "../App";
-import { LOAD_INCIDENT, IS_SAVED } from "../types/types";
+import { LOAD_INCIDENT, IS_SAVED, IS_DELETED } from "../types/types";
 
 export const loadData = data => {
   return store.dispatch({
@@ -10,8 +10,8 @@ export const loadData = data => {
 
 export const saveIncident = incident => {
   let data = store.getState().incidentState.data;
+  setIteminSessionStorage(data);
   data.unshift(incident);
-  sessionStorage.setItem("apiIncidentData",JSON.stringify(data));
   return store.dispatch({
     type: IS_SAVED,
     data
@@ -19,6 +19,24 @@ export const saveIncident = incident => {
 
 };
 
-export const DeleteIncident = id => {
-  alert(`${id} to be deleted `);
+export const deleteIncident = id => {
+  let dataAfterDelete = store.getState().incidentState.data.filter(d => d.id !== id);
+  setIteminSessionStorage(dataAfterDelete);
+  return store.dispatch({
+    type: IS_DELETED,
+    data: dataAfterDelete
+  });
 }
+export const editIncident = id => {
+  let dataAfterDelete = store.getState().incidentState.data.filter(d => d.id !== id);
+  setIteminSessionStorage(dataAfterDelete);
+  return store.dispatch({
+    type: IS_DELETED,
+    data: dataAfterDelete
+  });
+}
+
+const setIteminSessionStorage = (data) => {
+  sessionStorage.setItem("apiIncidentData",JSON.stringify(data));
+  
+};
