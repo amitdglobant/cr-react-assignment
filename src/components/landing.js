@@ -5,6 +5,10 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import { Link } from "react-router-dom";
+//import { connect } from 'react-redux';
+//import { Incidents } from './../store/actions/Incidents'
+
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -73,7 +77,9 @@ class Landing extends Component {
       data && (
         <div className="table-info">
           <div className="incident-button">
-            <Button color="primary">Add Incident</Button>{' '}
+            <Link to={{ pathname: `/incident/add` }}>
+              <Button color="primary">Add Incident</Button>{' '}
+            </Link>
           </div>
           <h4>Showing {count} incidents in the database.</h4>
           <IncidentsTable
