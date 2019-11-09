@@ -5,6 +5,10 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import { bindActionCreators } from 'redux';
+import {connect} from "react-redux";
+import * as actions from "../actions/incidentActions";
+
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -34,11 +38,10 @@ class Landing extends Component {
     let data = null;
     const headerArr = [];
 
-    if (!sessionStorage.getItem("apiIncidentData")) {
-      data = (await getData()).incidents;
-    } else {
-      data = JSON.parse(sessionStorage.getItem("apiIncidentData"));
-    }
+    data = (await getData()).incidents;
+      this.props.actions.loadData(data);
+
+      
     //get all column header values
     for (let key in data[0]) {
       headerArr.push(key);
@@ -59,6 +62,7 @@ class Landing extends Component {
   };
 
   render() {
+    
     const { pageSize, currentPage, sortColumn, count, columns } = this.state;
 
     if (count === 0)
@@ -71,20 +75,22 @@ class Landing extends Component {
     const { data } = this.getPagedData();
     return (
       data && (
+        
         <div className="table-info">
           <div className="incident-button">
             <Button color="primary">Add Incident</Button>{' '}
           </div>
           <h4>Showing {count} incidents in the database.</h4>
+          
           <IncidentsTable
             columns={columns}
             sortColumn={sortColumn}
             onSort={this.handleSort}
-            data={data}
+            data={this.props.state.incidentState.data}
             count={count}
           />
           <PaginationComp
-            itemsCount={count}
+            itemsCount={count}  
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
@@ -94,4 +100,19 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const mapStatetoProps = (state) => {
+  return {
+    incidentState: state.incidentState
+  }
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators(actions, dispatch)
+});
+
+export default connect(
+mapStatetoProps,
+mapDispatchToProps
+)(Landing);
+

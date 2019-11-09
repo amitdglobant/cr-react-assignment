@@ -1,0 +1,2 @@
+export const INCIDENT_ADDED = "INCIDENT_ADDED";
+export const LOAD_INCIDENT = "LOAD_INCIDENT";
