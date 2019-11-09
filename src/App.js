@@ -6,7 +6,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import {Provider} from 'react-redux'
-import {store} from '../src/reducer/store'
+import store from '../src/reducer/store'
 function App() {
   return (
   <Provider store={store}>
