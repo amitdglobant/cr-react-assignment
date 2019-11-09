@@ -52,7 +52,7 @@ class Landing extends Component {
     else{
       respData = JSON.parse(sessionStorage.getItem("apiIncidentData"));
     }
-    this.props.actions.loadData(respData);
+    await this.props.actions.loadData(respData);
     
     //get all column header values
     for (let key in this.props.incidentState.data[0]) {
