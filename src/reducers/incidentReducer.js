@@ -1,4 +1,4 @@
-import { INCIDENT_ADDED, LOAD_INCIDENT } from "../types/types";
+import { LOAD_INCIDENT, IS_SAVED } from "../types/types";
 
 const initialState = {
  data : {}
@@ -11,12 +11,14 @@ export const incidentReducer = (state = initialState, action) => {
         ...state,
         data: action.data
     };
-    case INCIDENT_ADDED:
-      return {
-        ...state,
-        data: Object.assign(state.data,{title : action.title, description: action.description, id: action.id })
-      };
+
+    case IS_SAVED: 
+    return {
+      ...state,
+      data: action.data
+    }
+    
     default:
-      return state;
+      return {...state};
   }
 };

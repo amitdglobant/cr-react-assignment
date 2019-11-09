@@ -1,9 +1,14 @@
-import { combineReducers } from "redux";
+import { combineReducers, applyMiddleware } from "redux";
 import { createStore } from "redux";
-import {incidentReducer} from "../reducers/incidentReducer";
+import { incidentReducer } from "../reducers/incidentReducer";
+import thunk from "redux-thunk";
 
-
-export const store = createStore(
-  combineReducers({
-    incidentState: incidentReducer
-  }));
+export default function configureStore(initialState = {}) {
+  return createStore(
+    combineReducers({
+      incidentState: incidentReducer
+    }),
+    initialState,
+    applyMiddleware(thunk)
+  );
+}

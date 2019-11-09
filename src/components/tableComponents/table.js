@@ -31,6 +31,7 @@ export default class IncidentsTable extends React.Component {
         </thead>
         <tbody>{this.renderCellData()}</tbody>
       </Table>
+      
     );
   }
 }

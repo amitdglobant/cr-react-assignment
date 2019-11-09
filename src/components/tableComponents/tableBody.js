@@ -10,7 +10,8 @@ const TableRow = row => (
     </td>
     <td>{row.title}</td>
     <td>{row.description}</td>
-    <td><Link to=''>Edit</Link></td>
+    <td><Link to=''>Edit</Link> <Link to=''>Delete</Link> </td>
+    
   </tr>
 );
 

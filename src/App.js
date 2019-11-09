@@ -6,7 +6,9 @@ import IncidentDetails from "./components/information";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
-import {store} from "./store/store";
+import configureStore from "./store/store";
+
+export const store = configureStore();
 
 function App() {
   return (

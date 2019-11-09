@@ -6,7 +6,7 @@ export async function getData() {
     .then(res => res.json())
     .then(
       result => {
-        data = result;
+        data = result.incidents;
       },
       error => (data = "Error")
     );
