@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-import IncidentsTable from "./tableComponents/table";
-import { getData } from "./../Services/incidentService";
-import PaginationComp from "./Pagination";
+import IncidentsTable from "../tableComponents/table";
+import PaginationComp from "../Pagination";
 import _ from "lodash";
-import { paginate } from "./paginateData";
+import { paginate } from "../paginateData";
 import { Spinner, Button } from "reactstrap";
-import { Link } from "react-router-dom";
-//import { connect } from 'react-redux';
-//import { Incidents } from './../store/actions/Incidents'
-
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -35,24 +30,7 @@ class Landing extends Component {
   };
 
   async componentDidMount() {
-    let data = null;
-    const headerArr = [];
-
-    if (!sessionStorage.getItem("apiIncidentData")) {
-      data = (await getData()).incidents;
-    } else {
-      data = JSON.parse(sessionStorage.getItem("apiIncidentData"));
-    }
-    //get all column header values
-    for (let key in data[0]) {
-      headerArr.push(key);
-    }
-    //filter the columns header
-    this.setState({
-      data,
-      count: data.length,
-      columns: headerArr.slice(0, 3)
-    });
+    this.props.getData();
   }
 
   componentWillUnmount() {
@@ -62,7 +40,24 @@ class Landing extends Component {
     this.setState({ sortColumn });
   };
 
+  setStateFromProps(data) {
+      const headerArr = [];
+      if(data){
+          for (let key in data[0]) {
+              headerArr.push(key);
+          }
+          //filter the columns header
+          this.setState({
+              data,
+              count: data.length,
+              columns: headerArr.slice(0, 3)
+          });
+      }
+    return true;
+  }
+
   render() {
+
     const { pageSize, currentPage, sortColumn, count, columns } = this.state;
 
     if (count === 0)
@@ -77,9 +72,7 @@ class Landing extends Component {
       data && (
         <div className="table-info">
           <div className="incident-button">
-            <Link to={{ pathname: `/incident/add` }}>
-              <Button color="primary">Add Incident</Button>{' '}
-            </Link>
+            <Button color="primary">Add Incident</Button>{' '}
           </div>
           <h4>Showing {count} incidents in the database.</h4>
           <IncidentsTable
@@ -99,5 +92,6 @@ class Landing extends Component {
       )
     );
   }
+
 }
 export default Landing;
