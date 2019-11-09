@@ -5,6 +5,7 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import IncidentModal from "./incident-modal"
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +70,7 @@ class Landing extends Component {
         </div>
       );
     const { data } = this.getPagedData();
+    
     return (
       data && (
         <div className="table-info">
@@ -89,6 +91,7 @@ class Landing extends Component {
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
           />
+          <IncidentModal />
         </div>
       )
     );
