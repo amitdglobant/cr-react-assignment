@@ -4,6 +4,8 @@ import { getData } from "./../Services/incidentService";
 import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
+import { connect } from "react-redux";
+import { incidentActions }  from "../actions/index";
 import { Spinner, Button } from "reactstrap";
 class Landing extends Component {
   constructor(props) {
@@ -73,7 +75,7 @@ class Landing extends Component {
       data && (
         <div className="table-info">
           <div className="incident-button">
-            <Button color="primary">Add Incident</Button>{' '}
+            <Button color="primary" onClick={(e) => {console.log(`Event is: `); console.dir(e); this.props.showModal()}}>Add Incident</Button>{' '}
           </div>
           <h4>Showing {count} incidents in the database.</h4>
           <IncidentsTable
@@ -94,4 +96,15 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const mapStateToProps = state => {
+  return {
+    incident: state.incident,
+  };
+};
+
+const mapDispatchToProps = {
+  showModal: incidentActions.SHOW_MODAL
+};
+export default connect( mapStateToProps,
+  mapDispatchToProps)(Landing);
