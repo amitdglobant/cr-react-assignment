@@ -4,21 +4,22 @@ import {
   CardBody,
   CardSubtitle,
   CardText,
-  CardTitle,
-  CardImg
+  CardTitle
 } from "reactstrap";
+import { Link } from "react-router-dom";
+
 class IncidentDetails extends Component {
   render() {
     const info = this.props.location.state.rowData;
     return (
       <div className="table-info">
+        <Link to="/incidents">Go Back</Link><br/>
         <Card>
           <CardBody>
             <CardTitle>Incident Details of ID - {info.id}</CardTitle>
             <CardSubtitle>{info.title}</CardSubtitle>
           </CardBody>
           <CardBody>
-            <CardImg alt={`${info.title} `} src={info.media.image_url_thumb} />
             <CardText>{info.description}</CardText>
           </CardBody>
         </Card>

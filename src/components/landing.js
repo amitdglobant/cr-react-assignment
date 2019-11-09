@@ -11,7 +11,11 @@ import * as actions from "../actions/incidentActions";
 import { SpinnerComponent } from "./UIComponent/SpinnerComponent";
 import DeleteModalComponent from "./UIComponent/DeleteModalComponent";
 import AddModalComponent from "./UIComponent/AddModalComponent";
-import { IS_SAVED } from "../types/types";
+import {
+  IS_SAVED,
+  INCIDENT_SAVED,
+  INCIDENT_EDITED
+} from "../types/types";
 
 class Landing extends Component {
   constructor(props) {
@@ -51,14 +55,15 @@ class Landing extends Component {
     }
   };
 
-  handleAddModalClose = confirm => {
-    this.setState({ showAddModal: false });
-    console.log(confirm);
+  handleAddModalClose = (confirm, action) => {
+    if (action === INCIDENT_SAVED) {
+      this.setState({ showAddModal: false });
+    }
     if (confirm === IS_SAVED) {
       this.setState({
         showMessage: true,
         showMessageColor: "success",
-        showMessageText: "Incident has been successfully added."
+        showMessageText: action === INCIDENT_SAVED ? "Incident has been successfully added." :"Incident has been successfully edited."
       });
     }
     setTimeout(() => this.setState({ showMessage: false }), 2000);
@@ -156,7 +161,16 @@ class Landing extends Component {
             />
             <AddModalComponent
               open={this.state.showAddModal}
-              onSave={action => this.handleAddModalClose(action)}
+              onSave={action =>
+                this.handleAddModalClose(action, INCIDENT_SAVED)
+              }
+            />
+            <AddModalComponent
+              open={this.props.incidentState.toEdit}
+              onSave={action =>
+                this.handleAddModalClose(action, INCIDENT_EDITED)
+              }
+              incident={this.props.incidentState.incidentToEdit}
             />
           </div>
         )

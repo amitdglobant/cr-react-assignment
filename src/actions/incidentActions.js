@@ -3,7 +3,8 @@ import {
   LOAD_INCIDENT,
   IS_SAVED,
   IS_DELETED,
-  IS_DELETE_CLICKED
+  IS_DELETE_CLICKED,
+  IS_EDIT_CLICKED
 } from "../types/types";
 
 export const loadData = data => {
@@ -13,13 +14,24 @@ export const loadData = data => {
   });
 };
 
-export const saveIncident = incident => {
+export const saveIncident = (incident, isSaved) => {
   let data = store.getState().incidentState.data;
   setIteminSessionStorage(data);
-  data.unshift(incident);
+  if (isSaved) {
+    data.unshift(incident);
+  }
+  else{
+    data.forEach((d,index) => {
+      if(d.id === incident.id){
+        data[index] = incident;
+      }
+    });
+  }
   return store.dispatch({
     type: IS_SAVED,
-    data
+    data,
+    toEdit: false,
+    incidentToEdit: {}
   });
 };
 
@@ -41,6 +53,16 @@ export const deleteClicked = id => {
     data: store.getState().incidentState.data,
     toDelete: true,
     deleteId: id
+  });
+};
+
+export const editClicked = incident => {
+  console.log(incident);
+  return store.dispatch({
+    type: IS_EDIT_CLICKED,
+    data: store.getState().incidentState.data,
+    toEdit: true,
+    incidentToEdit: incident
   });
 };
 

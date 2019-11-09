@@ -2,13 +2,16 @@ import {
   LOAD_INCIDENT,
   IS_SAVED,
   IS_DELETED,
-  IS_DELETE_CLICKED
+  IS_DELETE_CLICKED,
+  IS_EDIT_CLICKED
 } from "../types/types";
 
 const initialState = {
   data: {},
   toDelete: false,
-  deleteId: 0
+  deleteId: 0,
+  toEdit: false,
+  incidentToEdit: {}
 };
 
 export const incidentReducer = (state = initialState, action) => {
@@ -22,7 +25,16 @@ export const incidentReducer = (state = initialState, action) => {
     case IS_SAVED:
       return {
         ...state,
-        data: action.data
+        data: action.data,
+        toEdit: action.toEdit,
+        incidentToEdit: action.incidentToEdit
+      };
+      case IS_EDIT_CLICKED:
+      return {
+        ...state,
+        data: action.data,
+        toEdit: action.toEdit,
+        incidentToEdit: action.incidentToEdit
       };
 
     case IS_DELETE_CLICKED:

@@ -4,3 +4,6 @@ export const IS_DELETED = "IS_DELETED";
 export const IS_CLOSED = "IS_CLOSED";
 export const IS_SAVED = "IS_SAVED";
 export const IS_DELETE_CLICKED = "IS_DELETE_CLICKED";
+export const IS_EDIT_CLICKED = "IS_EDIT_CLICKED";
+export const INCIDENT_SAVED = "INCIDENT_SAVED";
+export const INCIDENT_EDITED = "INCIDENT_EDITED";
