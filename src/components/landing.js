@@ -5,6 +5,9 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import {connect} from 'react-redux'
+import {add_items,delete_item} from '../actions/actions'
+
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -68,6 +71,7 @@ class Landing extends Component {
           <Spinner color="primary" />
         </div>
       );
+
     const { data } = this.getPagedData();
     return (
       data && (
@@ -94,4 +98,25 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const mapStateToProps = state => {
+  return {
+      dataReducerPass: state.dataReducer,
+      idReducerPass: state.idReducer,
+      titleReducerPass: state.titleReducer,
+      currentPageReducerPass: state.currentPageReducer,
+      pageSizeReducerPass: state.pageSizeReducer,
+      countReducerPass: state.countReducer,
+      sortColumnReducerPass: state.sortColumnReducer,
+      columnsReducerPass: state.columnsReducer
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return{
+    add_items:(itemspassed)=>{dispatch(add_items(itemspassed))},
+    delete_item:(id)=>{dispatch(delete_item(id))}
+    }
+  };
+
+export default connect(mapStateToProps,
+  mapDispatchToProps)(Landing);
