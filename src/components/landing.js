@@ -5,6 +5,7 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import {connect} from 'react-redux'
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -31,14 +32,14 @@ class Landing extends Component {
   };
 
   async componentDidMount() {
-    let data = null;
-    const headerArr = [];
+    let data = this.props.incidents;
+     const headerArr = [];
 
-    if (!sessionStorage.getItem("apiIncidentData")) {
-      data = (await getData()).incidents;
-    } else {
-      data = JSON.parse(sessionStorage.getItem("apiIncidentData"));
-    }
+    // if (!sessionStorage.getItem("apiIncidentData")) {
+    //   data = (await getData()).incidents;
+    // } else {
+    //   data = JSON.parse(sessionStorage.getItem("apiIncidentData"));
+    // }
     //get all column header values
     for (let key in data[0]) {
       headerArr.push(key);
@@ -94,4 +95,9 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+const mapStateToProps = (state)=>{
+  return {
+    incidents:state.incidents
+  }
+}
+export default connect(mapStateToProps)(Landing)

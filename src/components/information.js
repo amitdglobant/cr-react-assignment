@@ -9,7 +9,8 @@ import {
 } from "reactstrap";
 class IncidentDetails extends Component {
   render() {
-    const info = this.props.location.state.rowData;
+    // const info = this.props.location.state.rowData;
+    const info = {};
     return (
       <div className="table-info">
         <Card>

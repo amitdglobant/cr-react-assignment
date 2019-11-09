@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const TableRow = row => (
+const TableRow = (row, showModal, setCurrentIncident) => (
   <tr key={row.id}>
     <td>
       <Link to={{ pathname: `/incidents/${row.id}`, state: { rowData: row } }}>
@@ -10,7 +10,10 @@ const TableRow = row => (
     </td>
     <td>{row.title}</td>
     <td>{row.description}</td>
-    <td><Link to=''>Edit</Link></td>
+    <td>
+      <button onClick={e =>{ setCurrentIncident(row);
+                             showModal()}}>Edit</button>
+    </td>
   </tr>
 );
 

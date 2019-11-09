@@ -2,10 +2,13 @@ import React from "react";
 import { Table } from "reactstrap";
 import TableHead from "./tableHead";
 import TableRow from "./tableBody";
-
-export default class IncidentsTable extends React.Component {
+import { showModal, setCurrentIncident } from "../../actions";
+import {connect} from 'react-redux'
+class IncidentsTable extends React.Component {
   renderCellData() {
-    return this.props.data.map(row => TableRow(row));
+    console.log('props',this.props.data)
+    const data = [...this.props.data];
+    return data.map(row => TableRow(row, this.props.showModal, this.props.setCurrentIncident));
   }
 
   raiseSort = columnName => {
@@ -34,3 +37,16 @@ export default class IncidentsTable extends React.Component {
     );
   }
 }
+const mapStateToProps = (state)=>{
+      
+  return {
+    incidents:state.incidents
+  }
+}
+export default connect(
+  mapStateToProps,
+  {
+    setCurrentIncident,
+    showModal
+  }
+)(IncidentsTable);
