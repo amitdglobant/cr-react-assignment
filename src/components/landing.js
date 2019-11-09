@@ -5,6 +5,19 @@ import PaginationComp from "./Pagination";
 import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import appActions from '../actions/appActions';
+import {getIncidents, editIncident, addIncident, deleteIncident} from '../reducers/appReducer';
+
+const mapStateToProps = state => {
+  return { incidentsList: state.incidentsList };
+};
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getIncidents: getIncidents
+}, dispatch)
+
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -94,4 +107,6 @@ class Landing extends Component {
     );
   }
 }
-export default Landing;
+
+const ListPage = connect(mapStateToProps)(Landing);
+export default ListPage;
