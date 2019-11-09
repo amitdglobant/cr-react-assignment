@@ -4,6 +4,10 @@ export default (state = {}, action) => {
         return {
           result: action.payload
         }
+        case 'ADD_INCIDENT':
+          return {
+            result: action.payload
+          }
       default:
         return state
     }

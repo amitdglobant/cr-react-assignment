@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { Incidents, addIncident, ADD_INCIDENT } from './../store/actions/Incidents';
+
 import {
     Card,
     CardBody,
@@ -21,6 +24,7 @@ class AddIncident extends Component {
     handleSubmit(event) {
         event.preventDefault();
         console.log(this.state);
+        this.props.addIncident(this.state);
     }
 
     generateNewTicketNumber() {
@@ -50,7 +54,7 @@ class AddIncident extends Component {
                         </CardBody>
                         <CardBody>
                             <CardTitle>
-                                <input type="submit" value="Submit" />
+                                <input type="submit" value="Submit"/>
                             </CardTitle>
                         </CardBody>    
                     </Card>
@@ -60,4 +64,10 @@ class AddIncident extends Component {
     }
 }
 
-export default AddIncident;
+const mapDispatchToProps = dispatch => ({
+    addIncident: (data) => {
+        dispatch(addIncident( ADD_INCIDENT, data));
+    }
+});
+
+export default connect(null, mapDispatchToProps)(AddIncident);

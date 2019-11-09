@@ -6,8 +6,8 @@ import _ from "lodash";
 import { paginate } from "./paginateData";
 import { Spinner, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-//import { connect } from 'react-redux';
-//import { Incidents } from './../store/actions/Incidents'
+import { connect } from 'react-redux';
+import { Incidents } from './../store/actions/Incidents';
 
 class Landing extends Component {
   constructor(props) {
@@ -73,6 +73,7 @@ class Landing extends Component {
         </div>
       );
     const { data } = this.getPagedData();
+    console.log(data);
     return (
       data && (
         <div className="table-info">
@@ -100,4 +101,5 @@ class Landing extends Component {
     );
   }
 }
+
 export default Landing;
