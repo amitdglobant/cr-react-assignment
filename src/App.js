@@ -3,7 +3,7 @@ import "./App.css";
 import { Provider } from "react-redux";
 import Landing from "./components/landing";
 import IncidentDetails from "./components/information";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import configureStore from "./store/store";
@@ -16,8 +16,9 @@ function App() {
       <div className="App">
         <Provider store={store}>
           <Switch>
+            <Redirect exact from="/" to="/incidents" />
             <Route exact path="/incidents/:id" component={IncidentDetails} />
-            <Route exact strict path="/incidents" component={Landing}  />
+            <Route exact strict path="/incidents" component={Landing} />
           </Switch>
         </Provider>
       </div>

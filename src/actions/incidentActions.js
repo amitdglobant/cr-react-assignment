@@ -19,10 +19,9 @@ export const saveIncident = (incident, isSaved) => {
   setIteminSessionStorage(data);
   if (isSaved) {
     data.unshift(incident);
-  }
-  else{
-    data.forEach((d,index) => {
-      if(d.id === incident.id){
+  } else {
+    data.forEach((d, index) => {
+      if (d.id === incident.id) {
         data[index] = incident;
       }
     });
@@ -57,7 +56,6 @@ export const deleteClicked = id => {
 };
 
 export const editClicked = incident => {
-  console.log(incident);
   return store.dispatch({
     type: IS_EDIT_CLICKED,
     data: store.getState().incidentState.data,

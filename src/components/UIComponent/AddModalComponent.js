@@ -83,7 +83,10 @@ const AddModalComponent = props => {
               type="number"
               defaultValue={id}
               ref={idRef}
-              style={{ width: "75%" ,background: (props.incident ? "#e2e2e2" : "#ffffff")}}
+              style={{
+                width: "75%",
+                background: props.incident ? "#e2e2e2" : "#ffffff"
+              }}
               readOnly={props.incident ? true : false}
             />
           </InputGroup>{" "}
@@ -115,7 +118,7 @@ const AddModalComponent = props => {
         </ModalBody>
         <ModalFooter>
           <Button color="success" onClick={() => saveIncidentData(props)}>
-          {props.incident ? "Edit" : "Add"} Incident
+            {props.incident ? "Edit" : "Add"} Incident
           </Button>
         </ModalFooter>
       </Modal>

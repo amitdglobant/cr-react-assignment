@@ -8,9 +8,9 @@ import * as actions from "../../actions/incidentActions";
 
 class IncidentsTable extends React.Component {
   renderCellData() {
-    return this.props.data.map(row => {
-      let props1 = {...row, ...this.props};
-      return <TableRow {...props1} />;
+    return this.props.data.map((row,index) => {
+      let propsObj = {...row, ...this.props};
+      return <TableRow key={index} {...propsObj} />;
     });
   }
 

@@ -11,22 +11,16 @@ import * as actions from "../actions/incidentActions";
 import { SpinnerComponent } from "./UIComponent/SpinnerComponent";
 import DeleteModalComponent from "./UIComponent/DeleteModalComponent";
 import AddModalComponent from "./UIComponent/AddModalComponent";
-import {
-  IS_SAVED,
-  INCIDENT_SAVED,
-  INCIDENT_EDITED
-} from "../types/types";
+import { IS_SAVED, INCIDENT_SAVED, INCIDENT_EDITED } from "../types/types";
 
 class Landing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
       id: 0,
       title: "",
       currentPage: 1,
-      pageSize: 7,
-      count: 0,
+      pageSize: 10,
       sortColumn: { columnName: "id", order: "asc" },
       columns: [],
       showAddModal: false,
@@ -60,26 +54,37 @@ class Landing extends Component {
       this.setState({ showAddModal: false });
     }
     if (confirm === IS_SAVED) {
+      if (action === INCIDENT_SAVED) {
+        this.setState({
+          currentPage: 1
+        });
+      }
       this.setState({
         showMessage: true,
         showMessageColor: "success",
-        showMessageText: action === INCIDENT_SAVED ? "Incident has been successfully added." :"Incident has been successfully edited."
+        showMessageText:
+          action === INCIDENT_SAVED
+            ? "Incident has been successfully added."
+            : "Incident has been successfully edited."
       });
     }
     setTimeout(() => this.setState({ showMessage: false }), 2000);
   };
 
-  getPagedData = () => {
-    const { pageSize, currentPage, sortColumn, data } = this.state;
+  getPagedData = data => {
+    const { pageSize, currentPage, sortColumn } = this.state;
     const sorted = _.orderBy(data, [sortColumn.columnName], [sortColumn.order]);
     const paginateData = paginate(sorted, currentPage, pageSize);
-    return { totalCount: this.state.data.length, data: paginateData };
+    return { totalCount: data.length, data: paginateData };
   };
 
   async componentDidMount() {
     const headerArr = [];
     let respData = null;
-    if (sessionStorage.getItem("apiIncidentData") === "") {
+    if (
+      sessionStorage.getItem("apiIncidentData") === "" ||
+      sessionStorage.getItem("apiIncidentData") === null
+    ) {
       respData = await getData();
     } else {
       respData = JSON.parse(sessionStorage.getItem("apiIncidentData"));
@@ -92,8 +97,6 @@ class Landing extends Component {
     }
     //filter the columns header
     this.setState({
-      data: this.props.incidentState,
-      count: this.props.incidentState.length,
       columns: headerArr.slice(0, 3)
     });
   }
@@ -113,8 +116,12 @@ class Landing extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn, count, columns } = this.state;
-    if (count === 0) {
+    const { pageSize, currentPage, sortColumn, columns } = this.state;
+    if (
+      this.getPagedData(this.props.incidentState.data).totalCount === 0 ||
+      typeof this.getPagedData(this.props.incidentState.data).totalCount ===
+        "undefined"
+    ) {
       return (
         <SpinnerComponent
           message="Please wait your data is being loaded"
@@ -122,8 +129,12 @@ class Landing extends Component {
         />
       );
     } else {
+      const data = this.getPagedData(this.props.incidentState.data).data;
+      const count = this.getPagedData(data).totalCount;
+      const totalCount = this.props.incidentState.data.length;
+
       return (
-        this.props.incidentState.data && (
+        data && (
           <div className="table-info">
             {this.state.showMessage && (
               <Alert color={this.state.showMessageColor} fade={true}>
@@ -136,19 +147,18 @@ class Landing extends Component {
               </Button>{" "}
             </div>
             <h4>
-              Showing {this.props.incidentState.data.length} incidents in the
-              database.
+              Showing {count} of {totalCount} incidents in the database.
             </h4>
 
             <IncidentsTable
               columns={columns}
               sortColumn={sortColumn}
               onSort={this.handleSort}
-              data={this.props.incidentState.data}
-              count={this.props.incidentState.data.length}
+              data={data}
+              count={count}
             />
             <PaginationComp
-              itemsCount={this.props.incidentState.data}
+              itemsCount={totalCount}
               pageSize={pageSize}
               currentPage={currentPage}
               onPageChange={this.handlePageChange}

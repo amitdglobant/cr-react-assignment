@@ -54,6 +54,10 @@ export const incidentReducer = (state = initialState, action) => {
       };
 
     default:
-      return { ...state };
+      return { ...state,  data: {},
+      toDelete: false,
+      deleteId: 0,
+      toEdit: false,
+      incidentToEdit: {} };
   }
 };
